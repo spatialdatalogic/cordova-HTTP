@@ -34,25 +34,25 @@
         <header-file src="src/ios/TextResponseSerializer.h" />
         <source-file src="src/ios/TextResponseSerializer.m" />
 
-        <header-file src="src/ios/AFNetworking/AFHTTPSessionManager.h" />
-        <source-file src="src/ios/AFNetworking/AFHTTPSessionManager.m" />
+        <header-file src="src/ios/BFNetworking/BFHTTPSessionManager.h" />
+        <source-file src="src/ios/BFNetworking/BFHTTPSessionManager.m" />
 
-        <header-file src="src/ios/AFNetworking/AFNetworking.h" />
+        <header-file src="src/ios/BFNetworking/BFNetworking.h" />
 
-        <header-file src="src/ios/AFNetworking/AFNetworkReachabilityManager.h" />
-        <source-file src="src/ios/AFNetworking/AFNetworkReachabilityManager.m" />
+        <header-file src="src/ios/BFNetworking/BFNetworkReachabilityManager.h" />
+        <source-file src="src/ios/BFNetworking/BFNetworkReachabilityManager.m" />
 
-        <header-file src="src/ios/AFNetworking/AFSecurityPolicy.h" />
-        <source-file src="src/ios/AFNetworking/AFSecurityPolicy.m" />
+        <header-file src="src/ios/BFNetworking/BFSecurityPolicy.h" />
+        <source-file src="src/ios/BFNetworking/BFSecurityPolicy.m" />
 
-        <header-file src="src/ios/AFNetworking/AFURLRequestSerialization.h" />
-        <source-file src="src/ios/AFNetworking/AFURLRequestSerialization.m" />
+        <header-file src="src/ios/BFNetworking/BFURLRequestSerialization.h" />
+        <source-file src="src/ios/BFNetworking/BFURLRequestSerialization.m" />
 
-        <header-file src="src/ios/AFNetworking/AFURLResponseSerialization.h" />
-        <source-file src="src/ios/AFNetworking/AFURLResponseSerialization.m" />
+        <header-file src="src/ios/BFNetworking/BFURLResponseSerialization.h" />
+        <source-file src="src/ios/BFNetworking/BFURLResponseSerialization.m" />
 
-        <header-file src="src/ios/AFNetworking/AFURLSessionManager.h" />
-        <source-file src="src/ios/AFNetworking/AFURLSessionManager.m" />
+        <header-file src="src/ios/BFNetworking/BFURLSessionManager.h" />
+        <source-file src="src/ios/BFNetworking/BFURLSessionManager.m" />
 
         <framework src="Security.framework" />
         <framework src="SystemConfiguration.framework" />

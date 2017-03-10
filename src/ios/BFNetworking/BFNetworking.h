@@ -1,6 +1,6 @@
-// AFNetworking.h
+// BFNetworking.h
 //
-// Copyright (c) 2013 AFNetworking (http://afnetworking.com/)
+// Copyright (c) 2013 BFNetworking (http://afnetworking.com/)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,18 @@
 #import <Availability.h>
 #import <TargetConditionals.h>
 
-#ifndef _AFNETWORKING_
-    #define _AFNETWORKING_
+#ifndef _BFNETWORKING_
+    #define _BFNETWORKING_
 
-    #import "AFURLRequestSerialization.h"
-    #import "AFURLResponseSerialization.h"
-    #import "AFSecurityPolicy.h"
+    #import "BFURLRequestSerialization.h"
+    #import "BFURLResponseSerialization.h"
+    #import "BFSecurityPolicy.h"
 
 #if !TARGET_OS_WATCH
-    #import "AFNetworkReachabilityManager.h"
+    #import "BFNetworkReachabilityManager.h"
 #endif
 
-    #import "AFURLSessionManager.h"
-    #import "AFHTTPSessionManager.h"
+    #import "BFURLSessionManager.h"
+    #import "BFHTTPSessionManager.h"
 
-#endif /* _AFNETWORKING_ */
+#endif /* _BFNETWORKING_ */

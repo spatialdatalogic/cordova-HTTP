@@ -1,4 +1,4 @@
-// AFHTTPSessionManager.m
+// BFHTTPSessionManager.m
 // Copyright (c) 2011–2016 Alamofire Software Foundation ( http://alamofire.org/ )
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,10 +19,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "AFHTTPSessionManager.h"
+#import "BFHTTPSessionManager.h"
 
-#import "AFURLRequestSerialization.h"
-#import "AFURLResponseSerialization.h"
+#import "BFURLRequestSerialization.h"
+#import "BFURLResponseSerialization.h"
 
 #import <Availability.h>
 #import <TargetConditionals.h>
@@ -40,11 +40,11 @@
 #import <WatchKit/WatchKit.h>
 #endif
 
-@interface AFHTTPSessionManager ()
+@interface BFHTTPSessionManager ()
 @property (readwrite, nonatomic, strong) NSURL *baseURL;
 @end
 
-@implementation AFHTTPSessionManager
+@implementation BFHTTPSessionManager
 @dynamic responseSerializer;
 
 + (instancetype)manager {
@@ -78,21 +78,21 @@
 
     self.baseURL = url;
 
-    self.requestSerializer = [AFHTTPRequestSerializer serializer];
-    self.responseSerializer = [AFJSONResponseSerializer serializer];
+    self.requestSerializer = [BFHTTPRequestSerializer serializer];
+    self.responseSerializer = [BFJSONResponseSerializer serializer];
 
     return self;
 }
 
 #pragma mark -
 
-- (void)setRequestSerializer:(AFHTTPRequestSerializer <AFURLRequestSerialization> *)requestSerializer {
+- (void)setRequestSerializer:(BFHTTPRequestSerializer <BFURLRequestSerialization> *)requestSerializer {
     NSParameterAssert(requestSerializer);
 
     _requestSerializer = requestSerializer;
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer <AFURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(BFHTTPResponseSerializer <BFURLResponseSerialization> *)responseSerializer {
     NSParameterAssert(responseSerializer);
 
     [super setResponseSerializer:responseSerializer];
@@ -168,7 +168,7 @@
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(nullable id)parameters
-     constructingBodyWithBlock:(nullable void (^)(id<AFMultipartFormData> _Nonnull))block
+     constructingBodyWithBlock:(nullable void (^)(id<BFMultipartFormData> _Nonnull))block
                        success:(nullable void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success
                        failure:(nullable void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure
 {
@@ -177,7 +177,7 @@
 
 - (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(id)parameters
-     constructingBodyWithBlock:(void (^)(id <AFMultipartFormData> formData))block
+     constructingBodyWithBlock:(void (^)(id <BFMultipartFormData> formData))block
                       progress:(nullable void (^)(NSProgress * _Nonnull))uploadProgress
                        success:(void (^)(NSURLSessionDataTask *task, id responseObject))success
                        failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure
@@ -317,9 +317,9 @@
         return nil;
     }
 
-    self.requestSerializer = [decoder decodeObjectOfClass:[AFHTTPRequestSerializer class] forKey:NSStringFromSelector(@selector(requestSerializer))];
-    self.responseSerializer = [decoder decodeObjectOfClass:[AFHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
-    AFSecurityPolicy *decodedPolicy = [decoder decodeObjectOfClass:[AFSecurityPolicy class] forKey:NSStringFromSelector(@selector(securityPolicy))];
+    self.requestSerializer = [decoder decodeObjectOfClass:[BFHTTPRequestSerializer class] forKey:NSStringFromSelector(@selector(requestSerializer))];
+    self.responseSerializer = [decoder decodeObjectOfClass:[BFHTTPResponseSerializer class] forKey:NSStringFromSelector(@selector(responseSerializer))];
+    BFSecurityPolicy *decodedPolicy = [decoder decodeObjectOfClass:[BFSecurityPolicy class] forKey:NSStringFromSelector(@selector(securityPolicy))];
     if (decodedPolicy) {
         self.securityPolicy = decodedPolicy;
     }
@@ -344,7 +344,7 @@
 #pragma mark - NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    AFHTTPSessionManager *HTTPClient = [[[self class] allocWithZone:zone] initWithBaseURL:self.baseURL sessionConfiguration:self.session.configuration];
+    BFHTTPSessionManager *HTTPClient = [[[self class] allocWithZone:zone] initWithBaseURL:self.baseURL sessionConfiguration:self.session.configuration];
 
     HTTPClient.requestSerializer = [self.requestSerializer copyWithZone:zone];
     HTTPClient.responseSerializer = [self.responseSerializer copyWithZone:zone];

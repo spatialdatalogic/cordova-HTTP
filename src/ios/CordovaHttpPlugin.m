@@ -1,26 +1,26 @@
 #import "CordovaHttpPlugin.h"
 #import "CDVFile.h"
 #import "TextResponseSerializer.h"
-#import "AFHTTPSessionManager.h"
+#import "BFHTTPSessionManager.h"
 
 @interface CordovaHttpPlugin()
 
-- (void)setRequestHeaders:(NSDictionary*)headers forManager:(AFHTTPSessionManager*)manager;
+- (void)setRequestHeaders:(NSDictionary*)headers forManager:(BFHTTPSessionManager*)manager;
 - (void)setResults:(NSMutableDictionary*)dictionary withTask:(NSURLSessionTask*)task;
 
 @end
 
 
 @implementation CordovaHttpPlugin {
-    AFSecurityPolicy *securityPolicy;
+    BFSecurityPolicy *securityPolicy;
 }
 
 - (void)pluginInitialize {
-    securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    securityPolicy = [BFSecurityPolicy policyWithPinningMode:BFSSLPinningModeNone];
 }
 
-- (void)setRequestHeaders:(NSDictionary*)headers forManager:(AFHTTPSessionManager*)manager {
-    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+- (void)setRequestHeaders:(NSDictionary*)headers forManager:(BFHTTPSessionManager*)manager {
+    manager.requestSerializer = [BFHTTPRequestSerializer serializer];
     [headers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         [manager.requestSerializer setValue:obj forHTTPHeaderField:key];
     }];
@@ -37,9 +37,9 @@
 - (void)enableSSLPinning:(CDVInvokedUrlCommand*)command {
     bool enable = [[command.arguments objectAtIndex:0] boolValue];
     if (enable) {
-        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+        securityPolicy = [BFSecurityPolicy policyWithPinningMode:BFSSLPinningModeCertificate];
     } else {
-        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        securityPolicy = [BFSecurityPolicy policyWithPinningMode:BFSSLPinningModeNone];
     }
     
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -67,7 +67,7 @@
 }
 
 - (void)post:(CDVInvokedUrlCommand*)command {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    BFHTTPSessionManager *manager = [BFHTTPSessionManager manager];
     manager.securityPolicy = securityPolicy;
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *parameters = [command.arguments objectAtIndex:1];
@@ -85,7 +85,7 @@
     } failure:^(NSURLSessionTask *task, NSError *error) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [self setResults: dictionary withTask: task];
-        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[BFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
         [dictionary setObject:errResponse forKey:@"error"];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -93,7 +93,7 @@
 }
 
 - (void)get:(CDVInvokedUrlCommand*)command {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    BFHTTPSessionManager *manager = [BFHTTPSessionManager manager];
     manager.securityPolicy = securityPolicy;
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *parameters = [command.arguments objectAtIndex:1];
@@ -112,7 +112,7 @@
     } failure:^(NSURLSessionTask *task, NSError *error) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [self setResults: dictionary withTask: task];
-        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[BFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
         [dictionary setObject:errResponse forKey:@"error"];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -120,7 +120,7 @@
 }
 
 - (void)head:(CDVInvokedUrlCommand*)command {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    BFHTTPSessionManager *manager = [BFHTTPSessionManager manager];
     manager.securityPolicy = securityPolicy;
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *parameters = [command.arguments objectAtIndex:1];
@@ -129,7 +129,7 @@
     
     CordovaHttpPlugin* __weak weakSelf = self;
     
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer = [BFHTTPResponseSerializer serializer];
     [manager HEAD:url parameters:parameters success:^(NSURLSessionTask *task) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [self setResults: dictionary withTask: task];
@@ -139,7 +139,7 @@
     } failure:^(NSURLSessionTask *task, NSError *error) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [self setResults: dictionary withTask: task];
-        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[BFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
         [dictionary setObject:errResponse forKey:@"error"];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -147,7 +147,7 @@
 }
 
 - (void)uploadFile:(CDVInvokedUrlCommand*)command {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    BFHTTPSessionManager *manager = [BFHTTPSessionManager manager];
     manager.securityPolicy = securityPolicy;
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *parameters = [command.arguments objectAtIndex:1];
@@ -161,7 +161,7 @@
     
     CordovaHttpPlugin* __weak weakSelf = self;
     manager.responseSerializer = [TextResponseSerializer serializer];
-    [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<BFMultipartFormData> formData) {
         NSError *error;
         [formData appendPartWithFileURL:fileURL name:name error:&error];
         if (error) {
@@ -180,7 +180,7 @@
     } failure:^(NSURLSessionTask *task, NSError *error) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [self setResults: dictionary withTask: task];
-        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[BFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
         [dictionary setObject:errResponse forKey:@"error"];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -189,7 +189,7 @@
 
 
 - (void)downloadFile:(CDVInvokedUrlCommand*)command {
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    BFHTTPSessionManager *manager = [BFHTTPSessionManager manager];
     manager.securityPolicy = securityPolicy;
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *parameters = [command.arguments objectAtIndex:1];
@@ -203,7 +203,7 @@
     }
     
     CordovaHttpPlugin* __weak weakSelf = self;
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer = [BFHTTPResponseSerializer serializer];
     [manager GET:url parameters:parameters progress:nil success:^(NSURLSessionTask *task, id responseObject) {
         /*
          *
@@ -263,7 +263,7 @@
     } failure:^(NSURLSessionTask *task, NSError *error) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
         [self setResults: dictionary withTask: task];
-        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
+        NSString* errResponse = [[NSString alloc] initWithData:(NSData *)error.userInfo[BFNetworkingOperationFailingURLResponseDataErrorKey] encoding:NSUTF8StringEncoding];
         [dictionary setObject:errResponse forKey:@"error"];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
         [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
